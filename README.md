@@ -27,3 +27,9 @@ cargo install wasm-pack
 ```bash
 wasm-pack build
 ```
+
+## Tauri
+
+```bash
+yarn tauri dev
+```
