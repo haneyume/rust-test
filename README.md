@@ -14,6 +14,10 @@ cargo build
 cargo run
 ```
 
+```bash
+cargo test
+```
+
 ## Rust WebAssembly
 
 ```bash
