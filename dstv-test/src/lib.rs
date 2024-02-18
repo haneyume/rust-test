@@ -27,4 +27,20 @@ mod tests {
         convert_dstv("./test/G1-M2.nc1", "./test/G1-M2.svg");
         convert_dstv("./test/G2-M4.nc1", "./test/G2-M4.svg");
     }
+
+    #[test]
+    fn convert_all_files() {
+        let files = fs::read_dir("./test-nc1").unwrap();
+
+        for file in files {
+            let file = file.unwrap();
+            let file_path = file.path();
+            let file_path = file_path.to_str().unwrap();
+            let output_path = file_path
+                .replace("test-nc1", "test-svg")
+                .replace(".nc1", ".svg");
+
+            convert_dstv(file_path, &output_path);
+        }
+    }
 }
