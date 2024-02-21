@@ -11,36 +11,36 @@ pub fn convert_dstv(file_path: &str, output_path: &str) {
     fs::write(output_path, svg).expect("Unable to write file");
 }
 
+pub fn convert_all_files(input_dir: &str, output_dir: &str) {
+    let dir = format!("./{}", input_dir);
+
+    let files = fs::read_dir(dir).unwrap();
+
+    for file in files {
+        let file = file.unwrap();
+        let file_path = file.path();
+        let file_path = file_path.to_str().unwrap();
+        let output_path = file_path
+            .replace(input_dir, output_dir)
+            .replace(".nc1", ".svg");
+
+        convert_dstv(file_path, &output_path);
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
-        convert_dstv("./test/0008-SE0008.nc1", "./test/0008-SE0008.svg");
-
-        convert_dstv("./test/A10-15.nc1", "./test/A10-15.svg");
-        convert_dstv("./test/A10-17.nc1", "./test/A10-17.svg");
-        convert_dstv("./test/A10-19.nc1", "./test/A10-19.svg");
-        convert_dstv("./test/A10-32.nc1", "./test/A10-32.svg");
-        convert_dstv("./test/C1-M1.nc1", "./test/C1-M1.svg");
-        convert_dstv("./test/G1-M2.nc1", "./test/G1-M2.svg");
-        convert_dstv("./test/G2-M4.nc1", "./test/G2-M4.svg");
+    fn test_single_file() {
+        convert_dstv("./test-1-nc1/A10-15.nc1", "./test-1-svg/A10-15.svg");
     }
 
     #[test]
-    fn convert_all_files() {
-        let files = fs::read_dir("./test-nc1").unwrap();
-
-        for file in files {
-            let file = file.unwrap();
-            let file_path = file.path();
-            let file_path = file_path.to_str().unwrap();
-            let output_path = file_path
-                .replace("test-nc1", "test-svg")
-                .replace(".nc1", ".svg");
-
-            convert_dstv(file_path, &output_path);
-        }
+    fn test_all() {
+        convert_all_files("test-1-nc1", "test-1-svg");
+        convert_all_files("test-2-nc1", "test-2-svg");
+        convert_all_files("test-3-nc1", "test-3-svg");
     }
 }

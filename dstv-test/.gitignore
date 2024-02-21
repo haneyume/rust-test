@@ -1,4 +1,3 @@
 target
 test
-test-nc1
-test-svg
+test-*
